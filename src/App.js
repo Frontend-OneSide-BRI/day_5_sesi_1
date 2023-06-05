@@ -2,6 +2,8 @@ import logo from "./logo.svg";
 import "./App.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { getUser } from "./service/users";
+import List from "./components/List";
 function App() {
   const [users, setUsers] = useState([]);
   const [userCreate, setUserCreate] = useState({
@@ -10,8 +12,7 @@ function App() {
   });
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3000/users")
+    getUser()
       .then((res) => {
         console.log(res);
         setUsers(res.data);
@@ -38,9 +39,7 @@ function App() {
   };
   return (
     <div className="App">
-      {users.map((item, idx) => (
-        <h1 key={idx}>{item.email}</h1>
-      ))}
+      <List users={users} />
       <form onSubmit={onSubmit}>
         <input type="text" placeholder="name" name="name" onChange={onChange} />
         <input
